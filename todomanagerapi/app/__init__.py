@@ -1,7 +1,7 @@
 import os
 import datetime
 
-from flask import Flask, request, jsonify, abort
+from flask import Flask, request, jsonify, abort, make_response
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -39,3 +39,8 @@ def todos():
     print(data)
 
     return jsonify({'todos': list(map(lambda todo: {'id': todo.id, 'title': todo.title, 'timing': todo.timing}, data))})
+
+
+@app.errorhandler(404)
+def not_found(error):
+    return make_response(jsonify({'error': 'Not found'}), 404)
