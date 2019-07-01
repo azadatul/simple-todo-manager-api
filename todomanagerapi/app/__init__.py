@@ -30,11 +30,12 @@ def todos():
         if not request.json or not 'title' in request.json:
             abort(400)
 
-        newTodo = Todo(title=request.json['title'], timing=datetime.datetime.now())
+        newTodo = Todo(title=request.json['title'],
+                       timing=datetime.datetime.now())
         db.session.add(newTodo)
         db.session.commit()
 
     data = Todo.query.all()
     print(data)
-    
+
     return jsonify({'todos': list(map(lambda todo: {'id': todo.id, 'title': todo.title, 'timing': todo.timing}, data))})
